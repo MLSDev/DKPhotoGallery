@@ -53,6 +53,8 @@ DKPhotoGalleryContentDataSource, DKPhotoGalleryContentDelegate {
     
     @objc open var singleTapMode = DKPhotoGallerySingleTapMode.toggleControlView
     
+    @objc open var galleryBackgroundColor: UIColor? = nil { didSet { contentVC?.galleryBackgroundColor = galleryBackgroundColor }}
+    
     @objc weak open var galleryDelegate: DKPhotoGalleryDelegate?
     
     #if swift(>=4.2)
@@ -81,7 +83,7 @@ DKPhotoGalleryContentDataSource, DKPhotoGalleryContentDelegate {
     open override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.view.backgroundColor = UIColor.black
+        self.view.backgroundColor = galleryBackgroundColor ?? UIColor.black
         
         self.navigationBar.tintColor = UIColor.darkGray
         self.navigationBar.isTranslucent = true

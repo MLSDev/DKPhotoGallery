@@ -83,6 +83,13 @@ open class DKPhotoGalleryContentVC: UIViewController, UIScrollViewDelegate {
         get { return self.currentVC.contentView }
     }
     
+    internal var galleryBackgroundColor: UIColor? {
+        didSet {
+            guard let color = galleryBackgroundColor else { return }
+            mainView.backgroundColor = color
+        }
+    }
+    
     private let mainView = DKPhotoGalleryScrollView()
     private var reuseableVCs: [ObjectIdentifier : [DKPhotoBasePreviewVC] ] = [:] // DKPhotoBasePreviewVC.Type : [DKPhotoBasePreviewVC]
     private var visibleVCs: [DKPhotoGalleryItem : DKPhotoBasePreviewVC] = [:]
@@ -118,6 +125,7 @@ open class DKPhotoGalleryContentVC: UIViewController, UIScrollViewDelegate {
         #endif
         
         self.mainView.set(totalCount: self.dataSource.numberOfItems())
+        self.mainView.backgroundColor = galleryBackgroundColor
         self.view.addSubview(self.mainView)
         
         self.updateVisibleViews(index: self.currentIndex, scrollToIndex: true, indexOnly: true)
