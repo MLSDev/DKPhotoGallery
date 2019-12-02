@@ -49,7 +49,7 @@ DKPhotoGalleryContentDataSource, DKPhotoGalleryContentDelegate {
     @objc open var finishedBlock: ((_ index: Int, _ item: DKPhotoGalleryItem) -> UIImageView?)?
     
     @objc open var presentingFromImageView: UIImageView?
-    @objc open var presentationIndex = 0
+    @objc open var presentationIndex = 0 { didSet { contentVC?.currentIndex = presentationIndex } }
     
     @objc open var singleTapMode = DKPhotoGallerySingleTapMode.toggleControlView
     
