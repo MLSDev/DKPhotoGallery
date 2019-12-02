@@ -55,6 +55,14 @@ DKPhotoGalleryContentDataSource, DKPhotoGalleryContentDelegate {
     
     @objc weak open var galleryDelegate: DKPhotoGalleryDelegate?
     
+    #if swift(>=4.2)
+    @objc public var dismissButtonStyle: UIBarButtonItem.SystemItem = .done
+    #else
+    @objc public var dismissButtonStyle: UIBarButtonSystemItem = .done
+    #endif
+    public var dismissButtonSide: Alignment = .left
+    public enum Alignment { case left, right }
+    
     @objc open var customLongPressActions: [UIAlertAction]?
     @objc open var customPreviewActions: [Any]? // [UIPreviewActionItem]
     
@@ -94,14 +102,18 @@ DKPhotoGalleryContentDataSource, DKPhotoGalleryContentDelegate {
         }
         
         #if swift(>=4.2)
-        contentVC.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.cancel,
-                                                                     target: self,
-                                                                     action: #selector(DKPhotoGallery.dismissGallery))
+        let button = UIBarButtonItem(barButtonSystemItem: dismissButtonStyle,
+                                                  target: self,
+                                                  action: #selector(DKPhotoGallery.dismissGallery))
         #else
-        contentVC.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.cancel,
-                                                                     target: self,
-                                                                     action: #selector(DKPhotoGallery.dismissGallery))
+        let button = UIBarButtonItem(barButtonSystemItem: dismissButtonStyle,
+                                                  target: self,
+                                                  action: #selector(DKPhotoGallery.dismissGallery))
         #endif
+        switch dismissButtonSide {
+        case .left: contentVC.navigationItem.leftBarButtonItem = button
+        case .right: contentVC.navigationItem.rightBarButtonItem = button
+        }
         
         contentVC.dataSource = self
         contentVC.delegate = self
